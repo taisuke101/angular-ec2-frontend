@@ -2,6 +2,7 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
             <div class="row">
+                <!-- データベースの内容を繰り返し処理で表示 -->
                 <div *ngFor="let tempProduct of products" class="col-md-3">
                     <div class="product-box">
                         <img src="{{ tempProduct.imageUrl }}" class="img-responsive">
@@ -11,6 +12,13 @@
                         </div>
                         <a href="#" class="primary-btn">カートに入れる</a>
                     </div>
+                </div>
+                <div 
+                    *ngIf="products?.length == 0" 
+                    class="alert alert-warning col-md-12"
+                    role="alert"
+                >
+                    商品が見つかりませんでした
                 </div>
             </div>
         </div>
