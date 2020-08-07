@@ -9,7 +9,7 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root'
 })
 export class ProductService {
-  
+
   private baseUrl = 'http://localhost:8080/api/products'
 
   private categoryUrl = 'http://localhost:8080/api/product-category'
@@ -17,6 +17,14 @@ export class ProductService {
   constructor(
     private httpClient: HttpClient
   ) { }
+
+  getProduct(theProductId: number): Observable<Product> {
+    
+    // 商品idに基づくURLを作成する
+    const productUrl = `${this.baseUrl}/${theProductId}`
+
+    return this.httpClient.get<Product>(productUrl);
+  }
 
   getProductList(theCategoryId: number): Observable<Product[]> {
 
@@ -34,12 +42,13 @@ export class ProductService {
     return this.getProducts(searchUrl);
   }
 
+  //商品一覧から検索結果に対応する商品を取得する
   private getProducts(searchUrl: string): Observable<Product[]> {
     return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(
       map(response => response._embedded.products)
     );
   }
-
+  //商品一覧からカテゴリーに対応する商品を取得する
   getProductCategories(): Observable<ProductCategory[]>{
     return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
       map(response => response._embedded.productCategory)
