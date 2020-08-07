@@ -12,7 +12,8 @@ export class ProductListComponent implements OnInit {
 
   products: Product[];
   currentCategoryId: number;
-  
+  searchMode: boolean;
+
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute
@@ -25,11 +26,38 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts() {
+    
+    // Path がKeywordを持っている時、trueになる
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+
+    if (this.searchMode) {
+      this.handleSearchProducts();
+    }
+    else {
+      this.handleListProducts();
+    }
+
+
+  }
+
+  handleSearchProducts() {
+    //keywordを取得
+    const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
+
+    //取得したkeywordを使って検索する
+    this.productService.searchProducts(theKeyword).subscribe(
+      data => {
+        this.products = data;
+      }
+    )
+  }
+
+  handleListProducts() {
 
     //Idを持っているかどうかチェックする
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
-    if(hasCategoryId) {
+    if (hasCategoryId) {
       //idのパラメーターを文字列で受け取り、「＋」で数値に変換する
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id');
     }
