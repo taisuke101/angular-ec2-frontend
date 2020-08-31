@@ -4,7 +4,7 @@ import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 
 import { CartItem } from '../../common/cart-item';
-import { CartService } from '../../services/cart.service'
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,14 +14,14 @@ import { CartService } from '../../services/cart.service'
 export class ProductListComponent implements OnInit {
 
   products: Product[] = [];
-  currentCategoryId: number = 1;
-  previousCategoryId: number = 1;
-  searchMode: boolean = false;
+  currentCategoryId = 1;
+  previousCategoryId = 1;
+  searchMode = false;
 
   // new properties for pagination
-  thePageNumber: number = 1;
-  thePageSize: number = 5;
-  theTotalElements: number = 0;
+  thePageNumber = 1;
+  thePageSize = 5;
+  theTotalElements = 0;
 
   previousKeyword: string = null;
 
@@ -31,13 +31,13 @@ export class ProductListComponent implements OnInit {
     private cartService: CartService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.listProducts();
     });
   }
 
-  listProducts() {
+  listProducts(): void {
 
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
@@ -50,13 +50,13 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  handleSearchProducts() {
+  handleSearchProducts(): void {
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
-    //if we hace a different keyword than previous
-    //then ser the PageNumber to 1
+    // if we hace a different keyword than previous
+    // then ser the PageNumber to 1
 
-    if(this.previousKeyword !=theKeyword) {
+    if (this.previousKeyword !== theKeyword) {
       this.thePageNumber = 1;
     }
     // now search for the products using keyword
@@ -67,7 +67,7 @@ export class ProductListComponent implements OnInit {
     ).subscribe(this.processResult());
   }
 
-  handleListProducts() {
+  handleListProducts(): void {
 
     // check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
@@ -88,7 +88,7 @@ export class ProductListComponent implements OnInit {
 
     // if we have a different category id than previous
     // then set thePageNumber back to 1
-    if (this.previousCategoryId != this.currentCategoryId) {
+    if (this.previousCategoryId !== this.currentCategoryId) {
       this.thePageNumber = 1;
     }
 
@@ -104,7 +104,7 @@ export class ProductListComponent implements OnInit {
       ).subscribe(this.processResult());
   }
 
-  processResult() {
+  processResult(): any {
     return data => {
       this.products = data._embedded.products;
       this.thePageNumber = data.page.number + 1;
@@ -113,19 +113,16 @@ export class ProductListComponent implements OnInit {
     };
   }
 
-  updatePageSize(pageSize: number) {
-    this.thePageSize =- pageSize;
+  updatePageSize(pageSize: number): void {
+    this.thePageSize -= pageSize;
     this.thePageNumber = 1;
     this.listProducts();
   }
 
-  addToCart(theProduct: Product) {
+  addToCart(theProduct: Product): void {
     console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
-    
     const theCartItem = new CartItem(theProduct);
 
     this.cartService.addToCart(theCartItem);
-
-
   }
 }
