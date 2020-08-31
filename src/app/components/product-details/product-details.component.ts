@@ -13,8 +13,8 @@ import { CartItem } from 'src/app/common/cart-item';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-  //↓何も定義されていなかったため、実際のブラウザではnullまたはundifinedになってエラーとなる。
-  //しかしAngularのデータバインディングで後に更新されたため、画像は表示された。
+  // ↓何も定義されていなかったため、実際のブラウザではnullまたはundifinedになってエラーとなる。
+  // しかしAngularのデータバインディングで後に更新されたため、画像は表示された。
   product: Product = new Product();
 
   constructor(
@@ -26,25 +26,23 @@ export class ProductDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
       this.handleProductDetails();
-    })
+    });
   }
-  handleProductDetails() {
-    
-    //idを取得し、「＋」で数値に変換する
+  handleProductDetails(): void {
+    // idを取得し、「＋」で数値に変換する
     const theProductId: number = +this.route.snapshot.paramMap.get('id');
 
     this.productService.getProduct(theProductId).subscribe(
       data => {
         this.product = data;
       }
-    )
+    );
   }
 
-  addToCart() {
+  addToCart(): void {
     console.log(`adding to cart: ${this.product.name}, ${this.product.unitPrice}`);
     const theCartItem = new CartItem(this.product);
     this.cartService.addToCart(theCartItem);
-    
   }
 
 }

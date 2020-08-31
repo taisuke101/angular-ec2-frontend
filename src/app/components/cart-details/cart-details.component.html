@@ -29,7 +29,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="col-ml-4 mr-2">
+                                    <div class="col-ml-4 mr-2" >
                                         {{ tempCartItem.quantity }}
                                     </div>
 
@@ -38,11 +38,8 @@
                                             <i class="fas fa-minus"></i>
                                         </button>
                                     </div>
-
                                     <div class="col-8">
-
                                     </div>
-
                                 </div>
                             </div>
                             <button (click)="remove(tempCartItem)" class="btn btn-primary btn-sm mt-2">削除</button>
@@ -57,6 +54,7 @@
                             <p>Total Quantity: {{ totalQuantity }}</p>
                             <p>Shipping: FREE</p>
                             <p>Total Price: {{ totalPrice | currency: 'USD' }}</p>
+                            <a routerLink="/checkout" class="btn btn-primary">会計</a>
                         </td>
                     </tr>
 

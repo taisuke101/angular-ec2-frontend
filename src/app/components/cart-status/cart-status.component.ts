@@ -8,8 +8,8 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartStatusComponent implements OnInit {
 
-  totalPrice: number = 0.00;
-  totalQuantity: number = 0;
+  totalPrice = 0.00;
+  totalQuantity = 0;
 
   constructor(
     private cartService: CartService
@@ -18,7 +18,7 @@ export class CartStatusComponent implements OnInit {
   ngOnInit(): void {
     this.updateCartStatus();
   }
-  updateCartStatus() {
+  updateCartStatus(): void {
 
     // カートの合計金額をsubscribeによって取得
     this.cartService.totalPrice.subscribe(

@@ -10,8 +10,8 @@ import { CartService } from 'src/app/services/cart.service';
 export class CartDetailsComponent implements OnInit {
 
   cartItems: CartItem[] = [];
-  totalPrice: number = 0;
-  totalQuantity: number = 0;
+  totalPrice = 0;
+  totalQuantity = 0;
 
 
   constructor(
@@ -21,31 +21,31 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.listCartDetails();
   }
-  listCartDetails() {
-    //カートアイテムのハンドルを取得
+  listCartDetails(): void {
+    // カートアイテムのハンドルを取得
     this.cartItems = this.cartService.cartItems;
-    //カートの合計金額をサブスクライブ
+    // カートの合計金額をサブスクライブ
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
     );
-    //カートの合計量をサブスクライブ
-      this.cartService.totalQuantity.subscribe(
-        data => this.totalQuantity = data
-      );
-    //カートの合計金額と合計量を計算
-      this.cartService.computeCartTotals();
+    // カートの合計量をサブスクライブ
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
+  // カートの合計金額と合計量を計算
+    this.cartService.computeCartTotals();
   }
 
-  incrementQuantity(theCartItem: CartItem) {
+  incrementQuantity(theCartItem: CartItem): void {
     this.cartService.addToCart(theCartItem);
   }
 
-  decrementQuantity(theCartItem: CartItem) {
+  decrementQuantity(theCartItem: CartItem): void {
     this.cartService.decrementQuantity(theCartItem);
   }
 
-  remove(theCartItem: CartItem) {
-    this.cartService.remove(theCartItem)
+  remove(theCartItem: CartItem): void {
+    this.cartService.remove(theCartItem);
   }
 
 }
